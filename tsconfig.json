@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      // commons
+      "@qaseh/constants": ["src/common/constants"],
+      "@qaseh/dtos": ["src/common/dtos"],
+      "@qaseh/enums": ["src/common/enums"],
+      "@qaseh/filters": ["src/common/filters"],
+      "@qaseh/pipes": ["src/common/pipes"],
+      "@qaseh/utils": ["src/common/utils"],
+      "@qaseh/validations": ["src/common/validations"],
+      // configuration
+      "@qaseh/config": ["src/config"],
+      // entities
+      "@qaseh/entities": ["src/entities"],
+      // locales
+      "@qaseh/locales/joi": ["src/locales/joi"],
+      "@qaseh/locales/dictionaries": ["src/locales/dictionaries"],
+      // core modules
+      "@qaseh/modules/config": ["src/modules/core/config"],
+      "@qaseh/modules/database": ["src/modules/core/database"],
+      "@qaseh/modules/formatter": ["src/modules/core/formatter"],
+      "@qaseh/modules/i18n": ["src/modules/core/i18n"],
+      "@qaseh/modules/serviceAuthClient": ["src/modules/core/serviceAuthClient"],
+      // bootstrap and main
+      "@qaseh/bootstrap": ["src/modules/app.module"],
+      "@qaseh/main": ["src/main"],
+    }
+  }
+}
