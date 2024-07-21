@@ -18,9 +18,12 @@ export class ProductEntity {
   name: string;
 
   @Column({ type: 'int', unsigned: true })
+  price: number;
+
+  @Column({ type: 'int', unsigned: true })
   quantity: number;
 
-  @Column({ type: 'varchar', enum: ProductCategory })
+  @Column({ type: 'enum', enum: ProductCategory })
   category: ProductCategory;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })

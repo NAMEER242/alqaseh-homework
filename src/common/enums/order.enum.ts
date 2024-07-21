@@ -3,7 +3,7 @@ export enum OrderSortBy {
   Name = 'name',
 }
 
-export enum ProductSortDir {
+export enum OrderSortDir {
   ASC = 'ASC',
   DESC = 'DESC',
 }

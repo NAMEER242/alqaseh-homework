@@ -5,10 +5,9 @@ import {
   UpdateDateColumn,
   ManyToMany,
   Column,
-  OneToOne, OneToMany,
 } from 'typeorm';
 import { ProductEntity } from './product.entity';
-import { PaymentMethod } from '../common/enums/order.enum';
+import { PaymentMethod } from '@qaseh/enums';
 import { CustomerEntity } from './customer.entity';
 
 @Entity('orders')
@@ -24,7 +23,7 @@ export class OrderEntity {
 
   @Column({
     name: 'payment_method',
-    type: 'varchar',
+    type: 'enum',
     enum: PaymentMethod,
   })
   paymentMethod: PaymentMethod;
