@@ -47,6 +47,14 @@ export class ProductService {
     });
   }
 
+  async hasByName(name: string): Promise<boolean> {
+    return await this.productRepository.exists({
+      where: {
+        name: name,
+      },
+    });
+  }
+
   async create(createdBy: AdminEntity, productDto: CreateProductDto) {
     const product = this.productRepository.create(productDto);
     if (!product || !createdBy) return null;

@@ -1,11 +1,11 @@
 import {
   Entity,
-  OneToOne,
   JoinColumn,
   PrimaryGeneratedColumn,
   Column,
   UpdateDateColumn,
   CreateDateColumn,
+  ManyToOne,
 } from 'typeorm';
 import { AdminEntity } from './admin.entity';
 import { ProductCategory } from '@qaseh/enums';
@@ -33,11 +33,11 @@ export class ProductEntity {
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
   updatedAt: Date;
 
-  @OneToOne(() => AdminEntity)
+  @ManyToOne(() => AdminEntity)
   @JoinColumn({ name: 'created_by' })
   createdBy: AdminEntity;
 
-  @OneToOne(() => AdminEntity)
+  @ManyToOne(() => AdminEntity)
   @JoinColumn({ name: 'updated_by' })
   updatedBy: AdminEntity;
 }
