@@ -37,7 +37,8 @@ import {
   resetAdminPasswordValidation,
 } from '@qaseh/validations';
 import { SuccessResponseFormatter } from '@qaseh/modules/formatter';
-import { HelperService, JwtAccessGuard } from '../../auth';
+import { HelperService } from '../../auth';
+import { AdminJwtAccessGuard } from '../providers/guards/admin-jwt-access-guard.service';
 
 @ApiTags('Admins Management')
 @Controller('admins')
@@ -63,7 +64,7 @@ export class AdminController {
   })
   @ApiResponse({ status: 400, description: 'Admin creation failed' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @UseGuards(JwtAccessGuard)
+  @UseGuards(AdminJwtAccessGuard)
   @UsePipes(new JoiValidatorPipe(createAdminValidation))
   async createAdmin(
     @Req() req: any,
@@ -102,7 +103,7 @@ export class AdminController {
     isArray: true,
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @UseGuards(JwtAccessGuard)
+  @UseGuards(AdminJwtAccessGuard)
   @UsePipes(new JoiValidatorPipe(filterAdminValidation))
   async getAllAdmins(
     @Req() req: any,
@@ -128,7 +129,7 @@ export class AdminController {
   @ApiResponse({ status: 200, description: 'Success', type: ResponseAdminDto })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 404, description: 'Admin not found' })
-  @UseGuards(JwtAccessGuard)
+  @UseGuards(AdminJwtAccessGuard)
   @UsePipes(new JoiValidatorPipe(filterAdminValidation))
   async getAdmin(@Req() req: any, @Param('id') id: number): Promise<any> {
     // Get admin by id
@@ -156,7 +157,7 @@ export class AdminController {
   @ApiResponse({ status: 400, description: 'Change admin info failed' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 404, description: 'Admin not found' })
-  @UseGuards(JwtAccessGuard)
+  @UseGuards(AdminJwtAccessGuard)
   @UsePipes(new JoiValidatorPipe(changeAdminInfoValidation))
   async changeAdminInfo(
     @Req() req: any,
@@ -195,7 +196,7 @@ export class AdminController {
   @ApiResponse({ status: 400, description: 'Reset admin password failed' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 404, description: 'Admin not found' })
-  @UseGuards(JwtAccessGuard)
+  @UseGuards(AdminJwtAccessGuard)
   @UsePipes(new JoiValidatorPipe(resetAdminPasswordValidation))
   async resetAdminPassword(
     @Body() changePasswordDto: ChangeAdminPasswordDto,
@@ -236,7 +237,7 @@ export class AdminController {
   @ApiResponse({ status: 400, description: 'Delete admin failed' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 404, description: 'Admin not found' })
-  @UseGuards(JwtAccessGuard)
+  @UseGuards(AdminJwtAccessGuard)
   async deleteAdmin(@Param('id') id: number): Promise<void> {
     // Get admin by id
     const admin = await this.adminService.getAdmin(id);

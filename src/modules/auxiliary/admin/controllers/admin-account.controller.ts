@@ -31,14 +31,15 @@ import {
 import { AdminEntity, UserEntity } from '@qaseh/entities';
 import { SuccessResponseFormatter } from '@qaseh/modules/formatter';
 import { AuthService } from '../../auth/providers/services/auth.service';
-import { HelperService, JwtAccessGuard } from '../../auth';
-import { JwtRefreshGuard } from '../../auth/providers/guards/jwt-refresh.guard';
+import { HelperService } from '../../auth';
+import { AdminJwtRefreshGuard } from '../providers/guards/admin-jwt-refresh-guard.service';
 import { JoiValidatorPipe } from '@qaseh/pipes';
 import {
   changeAdminInfoValidation,
   createUserValidation,
 } from '@qaseh/validations';
 import { AdminService } from '../providers/services/admin.service';
+import { AdminJwtAccessGuard } from '../providers/guards/admin-jwt-access-guard.service';
 
 @ApiTags('Account Admin')
 @Controller('account/admin/auth')
@@ -138,7 +139,7 @@ export class AdminAccountController {
     type: ResponseAdminDto,
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @UseGuards(JwtAccessGuard)
+  @UseGuards(AdminJwtAccessGuard)
   async me(@Req() req: any): Promise<any> {
     const user: UserEntity = req.user;
     const admin: AdminEntity = await this.adminService.getAdminByUserId(
@@ -163,7 +164,7 @@ export class AdminAccountController {
   @ApiResponse({ status: 400, description: 'Change admin info failed' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 404, description: 'Admin not found' })
-  @UseGuards(JwtAccessGuard)
+  @UseGuards(AdminJwtAccessGuard)
   @UsePipes(new JoiValidatorPipe(changeAdminInfoValidation))
   async changeAdminInfo(
     @Req() req: any,
@@ -201,7 +202,7 @@ export class AdminAccountController {
   @ApiResponse({ status: 200, description: 'Success', type: JwtResponseDto })
   @ApiResponse({ status: 400, description: 'Refresh failed' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @UseGuards(JwtRefreshGuard)
+  @UseGuards(AdminJwtRefreshGuard)
   async refresh(@Req() req: any): Promise<any> {
     const user: UserEntity = req.user;
     const jwt = await this.helperService.generateJwtTokens(user);

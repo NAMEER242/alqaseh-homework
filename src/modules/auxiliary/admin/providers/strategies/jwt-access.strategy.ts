@@ -1,10 +1,11 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../../auth/providers/services/auth.service';
 import { JwtConfigService } from '@qaseh/modules/config';
 import { JwtAccessPayloadDto } from '@qaseh/dtos';
 import { UserEntity } from '@qaseh/entities';
+import { AdminService } from '../services/admin.service';
 
 /**
  * @class JwtAccessStrategy
@@ -25,6 +26,7 @@ export class JwtAccessStrategy extends PassportStrategy(
 ) {
   constructor(
     private readonly userService: AuthService,
+    private readonly adminService: AdminService,
     jwtConfigService: JwtConfigService,
   ) {
     super({
@@ -36,8 +38,9 @@ export class JwtAccessStrategy extends PassportStrategy(
 
   async validate(jwtPayloadDto: JwtAccessPayloadDto): Promise<UserEntity> {
     const user = await this.userService.getUserByJwtPayload(jwtPayloadDto);
+    const admin = await this.adminService.getAdminByUserId(user.id);
 
-    if (!user) {
+    if (!user && !admin) {
       throw new UnauthorizedException('Unauthorized');
     }
 

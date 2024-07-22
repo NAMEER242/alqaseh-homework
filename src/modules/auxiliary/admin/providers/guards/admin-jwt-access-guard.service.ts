@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 /**
- * @class JwtAccessGuard
+ * @class AdminJwtAccessGuard
  *
  * @description
  * Handles JWT access token authentication in NestJS applications. Extends the built-in AuthGuard from NestJS Passport and
@@ -13,4 +13,4 @@ import { AuthGuard } from '@nestjs/passport';
  * @extends AuthGuard
  */
 @Injectable()
-export class JwtAccessGuard extends AuthGuard('jwt-access') {}
+export class AdminJwtAccessGuard extends AuthGuard('jwt-access') {}

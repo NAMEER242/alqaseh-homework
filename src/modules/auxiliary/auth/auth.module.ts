@@ -4,10 +4,6 @@ import { UserEntity } from '@qaseh/entities';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@qaseh/modules/config';
-import { JwtAccessGuard } from './providers/guards/jwt-access.guard';
-import { JwtRefreshGuard } from './providers/guards/jwt-refresh.guard';
-import { JwtAccessStrategy } from './providers/strategies/jwt-access.strategy';
-import { JwtRefreshStrategy } from './providers/strategies/jwt-refresh.strategy';
 import { HelperService } from './providers/services/helper.service';
 import { AuthService } from './providers/services/auth.service';
 
@@ -18,21 +14,7 @@ import { AuthService } from './providers/services/auth.service';
     JwtModule,
     ConfigModule,
   ],
-  providers: [
-    JwtAccessGuard,
-    JwtRefreshGuard,
-    JwtAccessStrategy,
-    JwtRefreshStrategy,
-    HelperService,
-    AuthService,
-  ],
-  exports: [
-    JwtAccessGuard,
-    JwtRefreshGuard,
-    JwtAccessStrategy,
-    JwtRefreshStrategy,
-    HelperService,
-    AuthService,
-  ],
+  providers: [HelperService, AuthService],
+  exports: [HelperService, AuthService],
 })
 export class AuthModule {}

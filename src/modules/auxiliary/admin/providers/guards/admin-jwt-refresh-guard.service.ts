@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 /**
- * @class JwtRefreshGuard
+ * @class AdminJwtRefreshGuard
  *
  * @description
  * Handles JWT refresh token authentication in NestJS applications. Extends the built-in AuthGuard from NestJS Passport
@@ -13,4 +13,4 @@ import { AuthGuard } from '@nestjs/passport';
  * @extends AuthGuard
  */
 @Injectable()
-export class JwtRefreshGuard extends AuthGuard('jwt-refresh') {}
+export class AdminJwtRefreshGuard extends AuthGuard('jwt-refresh') {}

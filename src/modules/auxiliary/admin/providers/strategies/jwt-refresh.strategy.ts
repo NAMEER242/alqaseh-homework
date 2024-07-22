@@ -4,7 +4,8 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { JwtConfigService } from '@qaseh/modules/config';
 import { JwtRefreshPayloadDto } from '@qaseh/dtos';
 import { UserEntity } from '@qaseh/entities';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../../auth/providers/services/auth.service';
+import { AdminService } from '../services/admin.service';
 
 /**
  * @class JwtRefreshStrategy
@@ -25,6 +26,7 @@ export class JwtRefreshStrategy extends PassportStrategy(
 ) {
   constructor(
     private readonly userService: AuthService,
+    private readonly adminService: AdminService,
     jwtConfigService: JwtConfigService,
   ) {
     super({
@@ -36,8 +38,9 @@ export class JwtRefreshStrategy extends PassportStrategy(
 
   async validate(jwtPayloadDto: JwtRefreshPayloadDto): Promise<UserEntity> {
     const user = await this.userService.getUserByJwtPayload(jwtPayloadDto);
+    const admin = await this.adminService.getAdminByUserId(user.id);
 
-    if (!user) {
+    if (!user && !admin) {
       throw new UnauthorizedException('Unauthorized');
     }
 
