@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn,
   Column,
   UpdateDateColumn,
+  CreateDateColumn,
 } from 'typeorm';
 import { AdminEntity } from './admin.entity';
 import { ProductCategory } from '@qaseh/enums';
@@ -14,7 +15,7 @@ export class ProductEntity {
   @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
   id: number;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', unique: true })
   name: string;
 
   @Column({ type: 'int', unsigned: true })
@@ -25,6 +26,9 @@ export class ProductEntity {
 
   @Column({ type: 'enum', enum: ProductCategory })
   category: ProductCategory;
+
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
   updatedAt: Date;

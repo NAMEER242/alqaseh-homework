@@ -22,7 +22,7 @@ import { AdminService } from '../services/admin.service';
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(
   Strategy,
-  'jwt-refresh',
+  'admin-jwt-refresh',
 ) {
   constructor(
     private readonly userService: AuthService,
@@ -40,8 +40,8 @@ export class JwtRefreshStrategy extends PassportStrategy(
     const user = await this.userService.getUserByJwtPayload(jwtPayloadDto);
     const admin = await this.adminService.getAdminByUserId(user.id);
 
-    if (!user && !admin) {
-      throw new UnauthorizedException('Unauthorized');
+    if (!user || !admin) {
+      throw new UnauthorizedException('Admin Unauthorized');
     }
 
     return user;

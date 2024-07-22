@@ -13,7 +13,7 @@ export class AdminFormatter extends BaseFormatter<
       return {
         id: admin.id,
         fullName: admin.fullName,
-        email: admin.user.email,
+        email: admin.user ? admin.user.email : null,
         imageUrl: admin.imageUrl,
         createdAt: admin.createdAt,
         updatedAt: admin.updatedAt,

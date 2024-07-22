@@ -43,3 +43,22 @@ export class ProductResponseDto extends PartialType(ProductDto) {
   @ApiProperty()
   updatedBy: ResponseAdminDto;
 }
+
+export class ProductFilterDto {
+  @ApiProperty({ required: false, description: 'search by name' })
+  query: string;
+
+  @ApiProperty({
+    description: 'Limit the number of content that can be brought.',
+    required: false,
+    default: 10,
+  })
+  limit?: number;
+
+  @ApiProperty({
+    description: 'Specify the number of the page to be fetched.',
+    required: false,
+    default: 1,
+  })
+  page?: number;
+}

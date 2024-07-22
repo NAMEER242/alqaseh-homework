@@ -13,4 +13,4 @@ import { AuthGuard } from '@nestjs/passport';
  * @extends AuthGuard
  */
 @Injectable()
-export class AdminJwtAccessGuard extends AuthGuard('jwt-access') {}
+export class AdminJwtAccessGuard extends AuthGuard('admin-jwt-access') {}

@@ -98,8 +98,8 @@ export abstract class ResponseFormatter {
       return;
     }
 
-    if (!req.query.take) {
-      const message = `Query param 'take' is not found in request ${req.method} ${req.path}`;
+    if (!req.query.limit) {
+      const message = `Query param 'limit' is not found in request ${req.method} ${req.path}`;
       throw new Error(message);
     }
 
@@ -108,7 +108,7 @@ export abstract class ResponseFormatter {
       throw new Error(message);
     }
 
-    const take = Number(req.query.take);
+    const take = Number(req.query.limit);
     const page = Number(req.query.page);
 
     return {

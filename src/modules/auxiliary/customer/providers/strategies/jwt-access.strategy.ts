@@ -22,7 +22,7 @@ import { CustomerService } from '../services/customer.service';
 @Injectable()
 export class JwtAccessStrategy extends PassportStrategy(
   Strategy,
-  'jwt-access',
+  'customer-jwt-access',
 ) {
   constructor(
     private readonly userService: AuthService,
@@ -40,8 +40,8 @@ export class JwtAccessStrategy extends PassportStrategy(
     const user = await this.userService.getUserByJwtPayload(jwtPayloadDto);
     const customer = await this.customerService.getCustomerByUserId(user.id);
 
-    if (!user && !customer) {
-      throw new UnauthorizedException('Unauthorized');
+    if (!user || !customer) {
+      throw new UnauthorizedException('Customer Unauthorized');
     }
 
     return user;

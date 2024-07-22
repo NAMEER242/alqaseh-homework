@@ -1,5 +1,5 @@
 import { ApiProperty, PartialType, PickType } from '@nestjs/swagger';
-import { PaymentMethod } from '../enums/order.enum';
+import { PaymentMethod } from '@qaseh/enums';
 import { ProductResponseDto } from './product.dto';
 import { ResponseCustomerDto } from './cusotmer.dto';
 
@@ -42,4 +42,20 @@ export class OrderResponseDto extends PartialType(OrderDto) {
 
   @ApiProperty({ type: ResponseCustomerDto })
   customer: ResponseCustomerDto;
+}
+
+export class OrderFilterDto {
+  @ApiProperty({
+    description: 'Limit the number of content that can be brought.',
+    required: false,
+    default: 10,
+  })
+  limit?: number;
+
+  @ApiProperty({
+    description: 'Specify the number of the page to be fetched.',
+    required: false,
+    default: 1,
+  })
+  page?: number;
 }
