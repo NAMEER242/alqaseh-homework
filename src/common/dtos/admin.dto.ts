@@ -24,6 +24,9 @@ class AdminDto {
   imageUrl: string;
 
   @ApiProperty()
+  isSuperuser: boolean;
+
+  @ApiProperty()
   createdAt: Date;
 
   @ApiProperty()
@@ -32,7 +35,7 @@ class AdminDto {
 
 export class LoginAdminDto extends LoginUserDto {}
 
-class _CreateAdminDto extends PickType(AdminDto, ['fullName']) {}
+class _CreateAdminDto extends PickType(AdminDto, ['fullName', 'isSuperuser']) {}
 
 export class CreateAdminDto extends IntersectionType(
   _CreateAdminDto,

@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import { AppConfigService } from './providers/services/app-config.service';
 import { DBConfigService } from './providers/services/db-config.service';
 import { JwtConfigService } from './providers/services/jwt-config.service';
+import { SuperuserConfigService } from './providers/services/superuser-config.service';
 
 /**
  * @class ConfigModule
@@ -31,7 +32,17 @@ import { JwtConfigService } from './providers/services/jwt-config.service';
       ],
     }),
   ],
-  providers: [AppConfigService, DBConfigService, JwtConfigService],
-  exports: [AppConfigService, DBConfigService, JwtConfigService],
+  providers: [
+    AppConfigService,
+    DBConfigService,
+    JwtConfigService,
+    SuperuserConfigService,
+  ],
+  exports: [
+    AppConfigService,
+    DBConfigService,
+    JwtConfigService,
+    SuperuserConfigService,
+  ],
 })
 export class ConfigModule {}

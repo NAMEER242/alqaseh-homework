@@ -20,6 +20,9 @@ export class AdminEntity {
   @Column({ name: 'image_url', type: 'varchar', nullable: true })
   imageUrl: string;
 
+  @Column({ name: 'is_superuser', type: 'boolean', default: false })
+  isSuperuser: boolean;
+
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   createdAt: Date;
 

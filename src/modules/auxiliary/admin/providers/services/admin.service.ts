@@ -29,9 +29,7 @@ export class AdminService {
   async getAllAdmins(
     filter: FilterAdminDto,
   ): Promise<{ admins: AdminEntity[]; count: number }> {
-    const query = this.adminRepository
-      .createQueryBuilder('admin')
-      .withDeleted();
+    const query = this.adminRepository.createQueryBuilder('admin');
 
     this.applySearchFilter(query, filter.query);
     this.applySortingAndPagination(query, filter);
@@ -41,14 +39,19 @@ export class AdminService {
     return { admins, count };
   }
 
-  async getAdmin(
-    id: number,
-    withDeleted: boolean = false,
-  ): Promise<AdminEntity> {
+  async getAdmin(id: number): Promise<AdminEntity> {
     return await this.adminRepository.findOne({
       where: { id: id },
       relations: { user: true },
-      withDeleted: withDeleted,
+    });
+  }
+
+  async getSuperuser(): Promise<AdminEntity> {
+    return await this.adminRepository.findOne({
+      where: {
+        isSuperuser: true,
+      },
+      relations: { user: true },
     });
   }
 
