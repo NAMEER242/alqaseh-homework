@@ -28,9 +28,6 @@ class CustomerDto {
 
   @ApiProperty()
   updatedAt: Date;
-
-  @ApiProperty()
-  deletedAt: Date;
 }
 
 export class LoginCustomerDto extends LoginUserDto {}
@@ -97,7 +94,6 @@ class _ResponseCustomerDto extends PickType(CustomerDto, [
   'imageUrl',
   'createdAt',
   'updatedAt',
-  'deletedAt',
 ]) {}
 
 export class ResponseCustomerDto extends IntersectionType(

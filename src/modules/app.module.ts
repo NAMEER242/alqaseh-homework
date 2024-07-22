@@ -6,6 +6,7 @@ import { AuthModule } from './auxiliary/auth';
 import { AdminModule } from './auxiliary/admin';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CustomerEntity, OrderEntity, ProductEntity } from '@qaseh/entities';
+import { CustomerModule } from './auxiliary/customer';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { CustomerEntity, OrderEntity, ProductEntity } from '@qaseh/entities';
     FormatterModule,
     AuthModule,
     AdminModule,
+    CustomerModule,
   ],
   controllers: [],
   providers: [],

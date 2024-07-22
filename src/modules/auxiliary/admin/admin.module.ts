@@ -9,6 +9,10 @@ import { AdminController } from './controllers/admin.controller';
 import { AdminFormatter } from './providers/formatters/admin.formatter';
 import { AdminService } from './providers/services/admin.service';
 import { AuthModule, HelperService } from '../auth';
+import { AdminJwtAccessGuard } from './providers/guards/admin-jwt-access-guard.service';
+import { AdminJwtRefreshGuard } from './providers/guards/admin-jwt-refresh-guard.service';
+import { JwtAccessStrategy } from './providers/strategies/jwt-access.strategy';
+import { JwtRefreshStrategy } from './providers/strategies/jwt-refresh.strategy';
 
 @Module({
   imports: [
@@ -19,8 +23,22 @@ import { AuthModule, HelperService } from '../auth';
     AuthModule,
   ],
   controllers: [AdminAccountController, AdminController],
-  providers: [AdminFormatter, AdminService],
-  exports: [AdminFormatter, AdminService],
+  providers: [
+    AdminFormatter,
+    AdminService,
+    AdminJwtAccessGuard,
+    AdminJwtRefreshGuard,
+    JwtAccessStrategy,
+    JwtRefreshStrategy,
+  ],
+  exports: [
+    AdminFormatter,
+    AdminService,
+    AdminJwtAccessGuard,
+    AdminJwtRefreshGuard,
+    JwtAccessStrategy,
+    JwtRefreshStrategy,
+  ],
 })
 export class AdminModule implements OnModuleInit {
   constructor(
