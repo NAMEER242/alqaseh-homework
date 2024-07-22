@@ -7,12 +7,14 @@ import {
   JwtAccessPayloadDto,
   JwtRefreshPayloadDto,
 } from '@qaseh/dtos';
+import { HelperService } from './helper.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    private readonly helperService: HelperService,
   ) {}
 
   async isExists(email: string): Promise<boolean> {
@@ -24,6 +26,9 @@ export class AuthService {
     manager?: EntityManager,
   ): Promise<UserEntity> {
     manager = manager ?? this.userRepository.manager;
+    createUserDto.password = await this.helperService.makePassword(
+      createUserDto.password,
+    );
     const user = this.userRepository.create(createUserDto);
 
     return await manager.save(user);

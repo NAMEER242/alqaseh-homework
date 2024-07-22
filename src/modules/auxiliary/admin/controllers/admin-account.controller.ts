@@ -20,7 +20,6 @@ import {
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
-import { HelperService } from '../providers/services/helper.service';
 import { AdminFormatter } from '../providers/formatters/admin.formatter';
 import {
   ChangeAdminInfoDto,
@@ -32,7 +31,7 @@ import {
 import { AdminEntity, UserEntity } from '@qaseh/entities';
 import { SuccessResponseFormatter } from '@qaseh/modules/formatter';
 import { AuthService } from '../../auth/providers/services/auth.service';
-import { JwtAccessGuard } from '../../auth';
+import { HelperService, JwtAccessGuard } from '../../auth';
 import { JwtRefreshGuard } from '../../auth/providers/guards/jwt-refresh.guard';
 import { JoiValidatorPipe } from '@qaseh/pipes';
 import {
@@ -75,7 +74,7 @@ export class AdminAccountController {
       const admin = await this.adminService.createAdmin(adminDto);
 
       // Generate jwt tokens.
-      jwtTokens = await this.helperService.generateTokens(admin.user);
+      jwtTokens = await this.helperService.generateJwtTokens(admin.user);
     } catch {
       throw new BadRequestException('Registration failed');
     }
@@ -117,7 +116,7 @@ export class AdminAccountController {
       throw new BadRequestException('Incorrect email or password');
     }
 
-    const jwtTokens = await this.helperService.generateTokens(user);
+    const jwtTokens = await this.helperService.generateJwtTokens(user);
 
     return this.responseFormatter.format({
       req: req,
@@ -141,7 +140,10 @@ export class AdminAccountController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @UseGuards(JwtAccessGuard)
   async me(@Req() req: any): Promise<any> {
-    const admin: AdminEntity = req.user;
+    const user: UserEntity = req.user;
+    const admin: AdminEntity = await this.adminService.getAdminByUserId(
+      user.id,
+    );
 
     return this.responseFormatter.format({
       req: req,
@@ -169,7 +171,7 @@ export class AdminAccountController {
   ): Promise<any> {
     // Get admin by id
     const user: UserEntity = req.user;
-    let admin = await this.adminService.getAdmin(user.id);
+    let admin = await this.adminService.getAdminByUserId(user.id);
 
     if (!admin) {
       throw new NotFoundException('Admin not found');
@@ -202,7 +204,7 @@ export class AdminAccountController {
   @UseGuards(JwtRefreshGuard)
   async refresh(@Req() req: any): Promise<any> {
     const user: UserEntity = req.user;
-    const jwt = await this.helperService.generateTokens(user);
+    const jwt = await this.helperService.generateJwtTokens(user);
 
     if (!jwt) {
       throw new BadRequestException('Refresh failed');

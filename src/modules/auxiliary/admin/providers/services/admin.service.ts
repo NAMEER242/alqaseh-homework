@@ -46,6 +46,17 @@ export class AdminService {
     });
   }
 
+  async getAdminByUserId(id: number): Promise<AdminEntity> {
+    return await this.adminRepository.findOne({
+      where: {
+        user: {
+          id: id,
+        },
+      },
+      relations: { user: true },
+    });
+  }
+
   async getSuperuser(): Promise<AdminEntity> {
     return await this.adminRepository.findOne({
       where: {

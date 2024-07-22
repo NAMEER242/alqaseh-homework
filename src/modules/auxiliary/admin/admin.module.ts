@@ -7,9 +7,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { AdminAccountController } from './controllers/admin-account.controller';
 import { AdminController } from './controllers/admin.controller';
 import { AdminFormatter } from './providers/formatters/admin.formatter';
-import { HelperService } from './providers/services/helper.service';
 import { AdminService } from './providers/services/admin.service';
-import { AuthModule } from '../auth';
+import { AuthModule, HelperService } from '../auth';
 
 @Module({
   imports: [
@@ -20,13 +19,14 @@ import { AuthModule } from '../auth';
     AuthModule,
   ],
   controllers: [AdminAccountController, AdminController],
-  providers: [AdminFormatter, HelperService, AdminService],
-  exports: [AdminFormatter, HelperService, AdminService],
+  providers: [AdminFormatter, AdminService],
+  exports: [AdminFormatter, AdminService],
 })
 export class AdminModule implements OnModuleInit {
   constructor(
     private readonly superuserConfigService: SuperuserConfigService,
     private readonly adminService: AdminService,
+    private readonly helperService: HelperService,
   ) {}
 
   /**
@@ -37,8 +37,9 @@ export class AdminModule implements OnModuleInit {
   async onModuleInit() {
     const email =
       this.superuserConfigService.superuserEmail ?? 'superuser@gmail.com';
-    const password =
-      this.superuserConfigService.superuserPassword ?? 'superuser';
+    const password = await this.helperService.makePassword(
+      this.superuserConfigService.superuserPassword ?? 'superuser',
+    );
     const isSuperuserExists = await this.adminService.getSuperuser();
     if (!isSuperuserExists) {
       await this.adminService.createAdmin({

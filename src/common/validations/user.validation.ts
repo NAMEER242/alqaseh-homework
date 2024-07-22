@@ -4,19 +4,19 @@ import * as Joi from 'joi';
 const passwordPattern = /^\S+$/;
 
 // Validation schema for email addresses.
-const emailSchema = Joi.string().email().required();
+const emailSchema = Joi.string().email();
 
 // Validation schemas for passwords.
 const passwordSchema = Joi.string().required();
 const createPasswordSchema = passwordSchema.min(8).pattern(passwordPattern);
 
 export const createUserValidation = Joi.object({
-  email: emailSchema,
+  email: emailSchema.required(),
   password: createPasswordSchema,
 });
 
 export const loginUserValidation = Joi.object({
-  email: emailSchema,
+  email: emailSchema.required(),
   password: passwordSchema,
 });
 
@@ -30,5 +30,5 @@ export const changeUserPasswordValidation = Joi.object({
 });
 
 export const changeUserInfoValidation = Joi.object({
-  email: emailSchema,
+  email: emailSchema.optional(),
 });

@@ -20,7 +20,6 @@ import {
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
-import { HelperService } from '../providers/services/helper.service';
 import { AdminService } from '../providers/services/admin.service';
 import { AdminFormatter } from '../providers/formatters/admin.formatter';
 import {
@@ -38,7 +37,7 @@ import {
   resetAdminPasswordValidation,
 } from '@qaseh/validations';
 import { SuccessResponseFormatter } from '@qaseh/modules/formatter';
-import { JwtAccessGuard } from '../../auth';
+import { HelperService, JwtAccessGuard } from '../../auth';
 
 @ApiTags('Admins Management')
 @Controller('admins')
