@@ -8,6 +8,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -243,7 +244,7 @@ export class CustomerController {
     }
   }
 
-  @Patch(':id/delete')
+  @Delete(':id/delete')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiBearerAuth('Access')
   @ApiOperation({
