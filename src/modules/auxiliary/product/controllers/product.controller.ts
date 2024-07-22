@@ -9,7 +9,8 @@ import {
   NotFoundException,
   Param,
   Patch,
-  Post, Query,
+  Post,
+  Query,
   Req,
   UseGuards,
   UsePipes,
@@ -97,6 +98,11 @@ export class ProductController {
     type: ProductResponseDto,
   })
   async create(@Req() req: any, @Body() productDto: CreateProductDto) {
+    const isNotUnique = await this.productService.hasByName(productDto.name);
+    if (isNotUnique) {
+      throw new BadRequestException('Product name is not unique');
+    }
+
     const user: UserEntity = req.user;
     const admin = await this.adminService.getAdminByUserId(user.id);
     const product = await this.productService.create(admin, productDto);

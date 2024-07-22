@@ -38,7 +38,7 @@ export class JwtAccessStrategy extends PassportStrategy(
 
   async validate(jwtPayloadDto: JwtAccessPayloadDto): Promise<UserEntity> {
     const user = await this.userService.getUserByJwtPayload(jwtPayloadDto);
-    const admin = await this.adminService.getAdminByUserId(user.id);
+    const admin = await this.adminService.getAdminByUserId(user?.id);
 
     if (!user || !admin) {
       throw new UnauthorizedException('Admin Unauthorized');
