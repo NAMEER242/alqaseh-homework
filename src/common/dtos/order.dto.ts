@@ -2,7 +2,6 @@ import { ApiProperty, PartialType, PickType } from '@nestjs/swagger';
 import { PaymentMethod } from '@qaseh/enums';
 import { ProductResponseDto } from './product.dto';
 import { ResponseCustomerDto } from './cusotmer.dto';
-import { number } from 'joi';
 
 export class OrderDto {
   @ApiProperty()
@@ -29,6 +28,28 @@ export class OrderDto {
 
 export class CreateCustomerOrderDto extends PickType(OrderDto, [
   'paymentMethod',
+]) {
+  @ApiProperty({ type: Number, isArray: true })
+  productIds: number[];
+}
+
+export class UpdateCustomerOrderDto extends PartialType(
+  PickType(OrderDto, ['paymentMethod']),
+) {
+  @ApiProperty({ type: Number, isArray: true })
+  productIds: number[];
+}
+
+export class UpdateAdminOrderDto extends PartialType(
+  PickType(OrderDto, ['paymentMethod']),
+) {
+  @ApiProperty({ type: Number, isArray: true })
+  productIds: number[];
+}
+
+export class CreateOrderDto extends PickType(OrderDto, [
+  'paymentMethod',
+  'discount',
   'orderPrice',
 ]) {
   @ApiProperty({ type: Number, isArray: true })
@@ -38,14 +59,7 @@ export class CreateCustomerOrderDto extends PickType(OrderDto, [
 export class UpdateOrderDto extends PartialType(
   PickType(OrderDto, ['orderPrice', 'discount', 'paymentMethod']),
 ) {
-  @ApiProperty({ type: [number] })
-  productIds: number[];
-}
-
-export class UpdateCustomerOrderDto extends PartialType(
-  PickType(OrderDto, ['orderPrice']),
-) {
-  @ApiProperty({ type: [number] })
+  @ApiProperty({ type: Number, isArray: true })
   productIds: number[];
 }
 

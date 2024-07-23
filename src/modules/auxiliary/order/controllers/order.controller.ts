@@ -17,8 +17,10 @@ import {
 } from '@nestjs/common';
 import {
   CreateCustomerOrderDto,
+  CreateOrderDto,
   OrderFilterDto,
   OrderResponseDto,
+  UpdateAdminOrderDto,
   UpdateCustomerOrderDto,
   UpdateOrderDto,
 } from '@qaseh/dtos';
@@ -135,9 +137,11 @@ export class OrderController {
     type: OrderResponseDto,
   })
   async getCustomerOrder(@Req() req: any, @Param('id') id: number) {
+    const user: UserEntity = req.user;
+    const customer = await this.customerService.getAdminByUserId(user.id);
     const order = await this.orderService.get(id);
 
-    if (!order) {
+    if (!order || order.customer.id != customer.id) {
       throw new BadRequestException('Failed to get the order');
     }
 
@@ -163,12 +167,12 @@ export class OrderController {
     const user: UserEntity = req.user;
     const customer = await this.customerService.getAdminByUserId(user.id);
     const products = await this.productService.getByIds(orderDto.productIds);
-    orderDto.orderPrice = products.reduce(
-      (total, product) => total + product.price,
-      0,
-    );
+    const createDto = {
+      orderPrice: products.reduce((total, product) => total + product.price, 0),
+      ...orderDto,
+    } as CreateOrderDto;
 
-    const order = await this.orderService.create(customer, products, orderDto);
+    const order = await this.orderService.create(customer, products, createDto);
 
     if (!order) {
       throw new BadRequestException('Order creation failed');
@@ -197,11 +201,16 @@ export class OrderController {
     const user: UserEntity = req.user;
     const customer = await this.customerService.getAdminByUserId(user.id);
     const products = await this.productService.getByIds(orderDto.productIds);
+    const updateDto = {
+      orderPrice: products.reduce((total, product) => total + product.price, 0),
+      ...orderDto,
+    } as UpdateOrderDto;
+
     const order = await this.orderService.update(
       id,
       customer,
       products,
-      orderDto,
+      updateDto,
     );
 
     if (!order) {
@@ -226,16 +235,21 @@ export class OrderController {
   async update(
     @Req() req: any,
     @Param('id') id: number,
-    @Body() orderDto: UpdateOrderDto,
+    @Body() orderDto: UpdateAdminOrderDto,
   ) {
     const user: UserEntity = req.user;
     const customer = await this.customerService.getAdminByUserId(user.id);
     const products = await this.productService.getByIds(orderDto.productIds);
+    const updateDto = {
+      orderPrice: products.reduce((total, product) => total + product.price, 0),
+      ...orderDto,
+    } as UpdateOrderDto;
+
     const order = await this.orderService.update(
       id,
       customer,
       products,
-      orderDto,
+      updateDto,
     );
 
     if (!order) {
