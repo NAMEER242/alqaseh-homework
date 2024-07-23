@@ -166,7 +166,9 @@ export class OrderController {
   ) {
     const user: UserEntity = req.user;
     const customer = await this.customerService.getAdminByUserId(user.id);
-    const products = await this.productService.getByIds(orderDto.productIds);
+    const products = await this.productService.getByIds(
+      orderDto.productIds ?? [],
+    );
     const createDto = {
       orderPrice: products.reduce((total, product) => total + product.price, 0),
       ...orderDto,
@@ -200,7 +202,9 @@ export class OrderController {
   ) {
     const user: UserEntity = req.user;
     const customer = await this.customerService.getAdminByUserId(user.id);
-    const products = await this.productService.getByIds(orderDto.productIds);
+    const products = await this.productService.getByIds(
+      orderDto.productIds ?? [],
+    );
     const updateDto = {
       orderPrice: products.reduce((total, product) => total + product.price, 0),
       ...orderDto,
@@ -239,7 +243,9 @@ export class OrderController {
   ) {
     const user: UserEntity = req.user;
     const customer = await this.customerService.getAdminByUserId(user.id);
-    const products = await this.productService.getByIds(orderDto.productIds);
+    const products = await this.productService.getByIds(
+      orderDto.productIds ?? [],
+    );
     const updateDto = {
       orderPrice: products.reduce((total, product) => total + product.price, 0),
       ...orderDto,

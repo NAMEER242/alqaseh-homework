@@ -35,7 +35,7 @@ import { HelperService } from '../../auth';
 import { CustomerJwtRefreshGuard } from '../providers/guards/customer-jwt-refresh-guard.service';
 import { JoiValidatorPipe } from '@qaseh/pipes';
 import {
-  changeCustomerInfoValidation,
+  changeCustomerInfoValidation, createCustomerValidation,
   createUserValidation,
 } from '@qaseh/validations';
 import { CustomerService } from '../providers/services/customer.service';
@@ -54,7 +54,7 @@ export class CustomerAccountController {
 
   @Post('register')
   @ApiOkResponse({ type: JwtResponseDto, description: 'Success' })
-  @UsePipes(new JoiValidatorPipe(createUserValidation))
+  @UsePipes(new JoiValidatorPipe(createCustomerValidation))
   async register(@Req() req: any, @Body() customerDto: CreateCustomerDto) {
     // Check if the user already exists.
     const isExists = await this.authService.isExists(customerDto.email);
