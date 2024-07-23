@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AdminEntity, ProductEntity } from '@qaseh/entities';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import {
   CreateProductDto,
   ProductFilterDto,
@@ -39,6 +39,18 @@ export class ProductService {
     return await this.productRepository.findOne({
       where: {
         id: id,
+      },
+      relations: {
+        createdBy: { user: true },
+        updatedBy: { user: true },
+      },
+    });
+  }
+
+  async getByIds(ids: number[]) {
+    return await this.productRepository.find({
+      where: {
+        id: In(ids),
       },
       relations: {
         createdBy: { user: true },

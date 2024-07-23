@@ -6,7 +6,7 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToMany,
+  OneToMany,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { OrderEntity } from './order.entity';
@@ -32,6 +32,6 @@ export class CustomerEntity {
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 
-  @ManyToMany(() => OrderEntity, (order) => order.customer)
+  @OneToMany(() => OrderEntity, (order) => order.customer)
   orders: OrderEntity[];
 }

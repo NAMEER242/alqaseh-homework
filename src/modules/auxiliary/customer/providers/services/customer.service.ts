@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CustomerEntity, UserEntity } from '@qaseh/entities';
+import { AdminEntity, CustomerEntity, UserEntity } from '@qaseh/entities';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import {
   ChangeCustomerInfoDto,
@@ -48,6 +48,15 @@ export class CustomerService {
   async getCustomer(id: number): Promise<CustomerEntity> {
     return await this.customerRepository.findOne({
       where: { id: id },
+      relations: { user: true },
+    });
+  }
+
+  async getAdminByUserId(id: number): Promise<CustomerEntity> {
+    return await this.customerRepository.findOne({
+      where: {
+        user: { id: id },
+      },
       relations: { user: true },
     });
   }

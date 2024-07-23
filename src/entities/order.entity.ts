@@ -5,6 +5,8 @@ import {
   UpdateDateColumn,
   ManyToMany,
   Column,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { ProductEntity } from './product.entity';
 import { PaymentMethod } from '@qaseh/enums';
@@ -38,8 +40,9 @@ export class OrderEntity {
   updatedAt: Date;
 
   @ManyToMany(() => ProductEntity)
-  products: ProductEntity;
+  products: ProductEntity[];
 
-  @ManyToMany(() => CustomerEntity, (customer) => customer.orders)
-  customer: CustomerEntity[];
+  @ManyToOne(() => CustomerEntity, (customer) => customer.orders)
+  @JoinColumn({ name: 'customer_id' })
+  customer: CustomerEntity;
 }
