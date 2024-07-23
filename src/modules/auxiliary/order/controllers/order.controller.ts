@@ -17,7 +17,7 @@ import {
 } from '@nestjs/common';
 import {
   CreateCustomerOrderDto,
-  CreateOrderDto,
+  CreateOrderDto, CustomerOrderFilterDto,
   OrderFilterDto,
   OrderResponseDto,
   UpdateAdminOrderDto,
@@ -108,13 +108,13 @@ export class OrderController {
   })
   async getAllCustomerOrders(
     @Req() req: any,
-    @Query() filterDto: OrderFilterDto,
+    @Query() filterDto: CustomerOrderFilterDto,
   ) {
     const user: UserEntity = req.user;
     const customer = await this.customerService.getAdminByUserId(user.id);
     const { orders, count } = await this.orderService.getAllCustomerOrders(
       customer.id,
-      filterDto,
+      filterDto as OrderFilterDto,
     );
 
     if (!orders) {

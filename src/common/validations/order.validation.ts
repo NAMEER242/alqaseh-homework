@@ -21,6 +21,8 @@ export const customerOrderUpdateValidation = Joi.object({
 });
 
 export const orderFilterValidation = Joi.object({
+  customerId: Joi.number().positive(),
+  paymentMethod: Joi.string().valid('All', ...Object.values(PaymentMethod)),
   limit: Joi.number().positive().default(10),
   page: Joi.number().positive().default(1),
 });

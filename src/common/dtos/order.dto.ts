@@ -1,4 +1,4 @@
-import { ApiProperty, PartialType, PickType } from '@nestjs/swagger';
+import { ApiProperty, OmitType, PartialType, PickType } from '@nestjs/swagger';
 import { PaymentMethod } from '@qaseh/enums';
 import { ProductResponseDto } from './product.dto';
 import { ResponseCustomerDto } from './cusotmer.dto';
@@ -72,6 +72,17 @@ export class OrderResponseDto extends PartialType(OrderDto) {
 }
 
 export class OrderFilterDto {
+  @ApiProperty({ description: 'filter by customer id', required: false })
+  customerId: number;
+
+  @ApiProperty({
+    description: 'filter by payment method',
+    enum: ['All', ...Object.values(PaymentMethod)],
+    default: 'All',
+    required: false,
+  })
+  paymentMethod: string;
+
   @ApiProperty({
     description: 'Limit the number of content that can be brought.',
     required: false,
@@ -86,3 +97,7 @@ export class OrderFilterDto {
   })
   page?: number;
 }
+
+export class CustomerOrderFilterDto extends OmitType(OrderFilterDto, [
+  'customerId',
+]) {}

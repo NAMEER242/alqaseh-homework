@@ -14,10 +14,23 @@ export class OrderService {
   async getAll(filter: OrderFilterDto) {
     const query = this.orderRepository.createQueryBuilder('order');
 
+    if (filter.paymentMethod && filter.paymentMethod != 'All') {
+      query.where('(order.paymentMethod = :method)', {
+        method: filter.paymentMethod,
+      });
+    }
+
     query
       .leftJoinAndSelect('order.customer', 'customer')
       .leftJoinAndSelect('customer.user', 'user')
       .leftJoinAndSelect('order.products', 'products');
+
+    if (filter.customerId) {
+      query.andWhere('(customer.id = :id)', {
+        id: filter.customerId,
+      });
+    }
+
     query.skip((filter.page - 1) * filter.limit).take(filter.limit);
 
     const [orders, count] = await query.getManyAndCount();
@@ -27,11 +40,17 @@ export class OrderService {
   async getAllCustomerOrders(customerId: number, filter: OrderFilterDto) {
     const query = this.orderRepository.createQueryBuilder('order');
 
+    if (filter.paymentMethod && filter.paymentMethod != 'All') {
+      query.where('(order.paymentMethod = :method)', {
+        method: filter.paymentMethod,
+      });
+    }
+
     query
       .leftJoinAndSelect('order.customer', 'customer')
       .leftJoinAndSelect('customer.user', 'user')
       .leftJoinAndSelect('order.products', 'products');
-    query.where('customer.id = :id', { id: customerId });
+    query.andWhere('customer.id = :id', { id: customerId });
     query.skip((filter.page - 1) * filter.limit).take(filter.limit);
 
     const [orders, count] = await query.getManyAndCount();

@@ -25,7 +25,7 @@ export class ProductService {
     }
 
     if (filter.category && filter.category != 'All') {
-      query.where('(product.category IS :query)', {
+      query.andWhere('(product.category = :query)', {
         query: `%${filter.category}%`,
       });
     }
