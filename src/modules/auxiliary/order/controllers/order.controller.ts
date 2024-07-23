@@ -16,15 +16,17 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import {
-  CreateOrderDto,
+  CreateCustomerOrderDto,
   OrderFilterDto,
   OrderResponseDto,
+  UpdateCustomerOrderDto,
   UpdateOrderDto,
 } from '@qaseh/dtos';
 import { OrderService } from '../providers/services/order.service';
 import { JoiValidatorPipe } from '@qaseh/pipes';
 import {
-  orderCreateValidation,
+  customerOrderCreateValidation,
+  customerOrderUpdateValidation,
   orderFilterValidation,
   orderUpdateValidation,
 } from '../../../../common/validations/order.validation';
@@ -149,15 +151,23 @@ export class OrderController {
   @Post('customer/orders')
   @UseGuards(CustomerJwtAccessGuard)
   @ApiBearerAuth('Access')
-  @UsePipes(new JoiValidatorPipe(orderCreateValidation))
+  @UsePipes(new JoiValidatorPipe(customerOrderCreateValidation))
   @ApiResponse({
     status: HttpStatus.CREATED,
     type: OrderResponseDto,
   })
-  async create(@Req() req: any, @Body() orderDto: CreateOrderDto) {
+  async createCustomerOrder(
+    @Req() req: any,
+    @Body() orderDto: CreateCustomerOrderDto,
+  ) {
     const user: UserEntity = req.user;
     const customer = await this.customerService.getAdminByUserId(user.id);
     const products = await this.productService.getByIds(orderDto.productIds);
+    orderDto.orderPrice = products.reduce(
+      (total, product) => total + product.price,
+      0,
+    );
+
     const order = await this.orderService.create(customer, products, orderDto);
 
     if (!order) {
@@ -168,6 +178,40 @@ export class OrderController {
       req: req,
       data: this.orderFormatter.formatOne(order),
       status: HttpStatus.CREATED,
+    });
+  }
+
+  @Patch('customer/orders/:id')
+  @UseGuards(CustomerJwtAccessGuard)
+  @ApiBearerAuth('Access')
+  @UsePipes(new JoiValidatorPipe(customerOrderUpdateValidation))
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: OrderResponseDto,
+  })
+  async updateCustomerOrder(
+    @Req() req: any,
+    @Param('id') id: number,
+    @Body() orderDto: UpdateCustomerOrderDto,
+  ) {
+    const user: UserEntity = req.user;
+    const customer = await this.customerService.getAdminByUserId(user.id);
+    const products = await this.productService.getByIds(orderDto.productIds);
+    const order = await this.orderService.update(
+      id,
+      customer,
+      products,
+      orderDto,
+    );
+
+    if (!order) {
+      throw new BadRequestException('Order Update failed');
+    }
+
+    return this.responseFormatter.format({
+      req: req,
+      data: this.orderFormatter.formatOne(order),
+      status: HttpStatus.OK,
     });
   }
 

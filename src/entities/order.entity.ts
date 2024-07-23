@@ -21,7 +21,7 @@ export class OrderEntity {
   @Column({ name: 'order_price', type: 'int', unsigned: true })
   orderPrice: number;
 
-  @Column({ type: 'int', unsigned: true })
+  @Column({ type: 'int', unsigned: true, default: 0 })
   discount: number;
 
   @Column({
@@ -31,7 +31,7 @@ export class OrderEntity {
   })
   paymentMethod: PaymentMethod;
 
-  @Column({ name: 'purchased_at', type: 'timestamp' })
+  @Column({ name: 'purchased_at', type: 'timestamp', nullable: true })
   purchasedAt: Date;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })

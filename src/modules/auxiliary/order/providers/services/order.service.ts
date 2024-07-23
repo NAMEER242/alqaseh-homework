@@ -2,7 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CustomerEntity, OrderEntity, ProductEntity } from '@qaseh/entities';
 import { Repository } from 'typeorm';
-import { CreateOrderDto, OrderFilterDto, UpdateOrderDto } from '@qaseh/dtos';
+import {
+  CreateCustomerOrderDto,
+  OrderFilterDto,
+  UpdateOrderDto,
+} from '@qaseh/dtos';
 
 @Injectable()
 export class OrderService {
@@ -54,7 +58,7 @@ export class OrderService {
   async create(
     customer: CustomerEntity,
     products: ProductEntity[],
-    orderDto: CreateOrderDto,
+    orderDto: CreateCustomerOrderDto,
   ) {
     const order = this.orderRepository.create(orderDto);
     if (!order || !customer) return null;
