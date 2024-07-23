@@ -14,3 +14,9 @@ export enum ProductCategory {
   Beauty = 'Beauty',
   Garden = 'Garden',
 }
+
+export enum ProductAvailabilityStatus {
+  LOW = 'low',
+  LIMITED = 'limited',
+  AVAILABLE = 'available',
+}

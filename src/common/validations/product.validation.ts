@@ -19,6 +19,7 @@ export const productUpdateValidation = Joi.object({
 
 export const productFilterValidation = Joi.object({
   query: Joi.string(),
+  category: Joi.string().valid('All', ...Object.values(ProductCategory)),
   limit: Joi.number().positive().default(10),
   page: Joi.number().positive().default(1),
 });

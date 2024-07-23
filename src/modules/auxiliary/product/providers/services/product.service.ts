@@ -19,8 +19,14 @@ export class ProductService {
     const query = this.productRepository.createQueryBuilder('product');
 
     if (filter.query) {
-      query.where('(authRoles.name LIKE :query)', {
+      query.where('(product.name LIKE :query)', {
         query: `%${filter.query}%`,
+      });
+    }
+
+    if (filter.category && filter.category != 'All') {
+      query.where('(product.category IS :query)', {
+        query: `%${filter.category}%`,
       });
     }
 

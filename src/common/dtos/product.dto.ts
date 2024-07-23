@@ -1,4 +1,4 @@
-import { ApiProperty, PartialType, PickType } from '@nestjs/swagger';
+import { ApiProperty, OmitType, PartialType, PickType } from '@nestjs/swagger';
 import { ProductCategory } from '@qaseh/enums';
 import { ResponseAdminDto } from './admin.dto';
 
@@ -44,9 +44,30 @@ export class ProductResponseDto extends PartialType(ProductDto) {
   updatedBy: ResponseAdminDto;
 }
 
+export class CustomerProductResponseDto extends PartialType(
+  OmitType(ProductDto, ['quantity']),
+) {
+  @ApiProperty()
+  quantity: string;
+
+  @ApiProperty()
+  createdBy: ResponseAdminDto;
+
+  @ApiProperty()
+  updatedBy: ResponseAdminDto;
+}
+
 export class ProductFilterDto {
   @ApiProperty({ required: false, description: 'search by name' })
   query: string;
+
+  @ApiProperty({
+    required: false,
+    description: 'filter by category',
+    enum: ['All', ...Object.values(ProductCategory)],
+    default: 'All',
+  })
+  category: string;
 
   @ApiProperty({
     description: 'Limit the number of content that can be brought.',
