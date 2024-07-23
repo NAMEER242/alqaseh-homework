@@ -93,7 +93,7 @@ export class OrderController {
     });
   }
 
-  @Get('customers/orders')
+  @Get('customer/orders')
   @UseGuards(CustomerJwtAccessGuard)
   @ApiBearerAuth('Access')
   @UsePipes(new JoiValidatorPipe(orderFilterValidation))
@@ -125,7 +125,7 @@ export class OrderController {
     });
   }
 
-  @Get('customers/orders/:id')
+  @Get('customer/orders/:id')
   @UseGuards(CustomerJwtAccessGuard)
   @ApiBearerAuth('Access')
   @ApiResponse({
@@ -146,7 +146,7 @@ export class OrderController {
     });
   }
 
-  @Post('customers/orders')
+  @Post('customer/orders')
   @UseGuards(CustomerJwtAccessGuard)
   @ApiBearerAuth('Access')
   @UsePipes(new JoiValidatorPipe(orderCreateValidation))

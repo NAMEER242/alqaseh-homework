@@ -7,6 +7,7 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  JoinTable,
 } from 'typeorm';
 import { ProductEntity } from './product.entity';
 import { PaymentMethod } from '@qaseh/enums';
@@ -40,6 +41,7 @@ export class OrderEntity {
   updatedAt: Date;
 
   @ManyToMany(() => ProductEntity)
+  @JoinTable({ name: 'orders_products' })
   products: ProductEntity[];
 
   @ManyToOne(() => CustomerEntity, (customer) => customer.orders)

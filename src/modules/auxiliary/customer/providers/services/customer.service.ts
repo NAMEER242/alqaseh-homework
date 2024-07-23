@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AdminEntity, CustomerEntity, UserEntity } from '@qaseh/entities';
+import { CustomerEntity, UserEntity } from '@qaseh/entities';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import {
   ChangeCustomerInfoDto,

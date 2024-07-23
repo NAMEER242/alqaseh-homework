@@ -32,7 +32,7 @@ export class CreateOrderDto extends PickType(OrderDto, [
   'discount',
   'paymentMethod',
 ]) {
-  @ApiProperty({ type: [number] })
+  @ApiProperty({ type: Number, isArray: true })
   productIds: number[];
 }
 
