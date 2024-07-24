@@ -23,6 +23,7 @@ export class OrderService {
     query
       .leftJoinAndSelect('order.customer', 'customer')
       .leftJoinAndSelect('customer.user', 'user')
+      .leftJoinAndSelect('customer.discount', 'discount')
       .leftJoinAndSelect('order.products', 'products');
 
     if (filter.customerId) {
@@ -49,6 +50,7 @@ export class OrderService {
     query
       .leftJoinAndSelect('order.customer', 'customer')
       .leftJoinAndSelect('customer.user', 'user')
+      .leftJoinAndSelect('customer.discount', 'discount')
       .leftJoinAndSelect('order.products', 'products');
     query.andWhere('customer.id = :id', { id: customerId });
     query.skip((filter.page - 1) * filter.limit).take(filter.limit);
@@ -65,6 +67,7 @@ export class OrderService {
       relations: {
         customer: { user: true },
         products: true,
+        discount: true,
       },
     });
   }
@@ -94,6 +97,7 @@ export class OrderService {
       relations: {
         customer: { user: true },
         products: true,
+        discount: true,
       },
     });
     if (!order) return null;

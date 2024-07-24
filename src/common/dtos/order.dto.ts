@@ -2,6 +2,7 @@ import { ApiProperty, OmitType, PartialType, PickType } from '@nestjs/swagger';
 import { PaymentMethod } from '@qaseh/enums';
 import { ProductResponseDto } from './product.dto';
 import { ResponseCustomerDto } from './cusotmer.dto';
+import { ResponseDiscountDto } from './discount.dto';
 
 export class OrderDto {
   @ApiProperty()
@@ -65,6 +66,9 @@ export class OrderResponseDto extends PartialType(OrderDto) {
 
   @ApiProperty({ type: ResponseCustomerDto })
   customer: ResponseCustomerDto;
+
+  @ApiProperty({ type: ResponseDiscountDto })
+  discount: ResponseDiscountDto;
 }
 
 export class OrderFilterDto {

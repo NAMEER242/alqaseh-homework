@@ -4,6 +4,7 @@ import { OrderEntity } from '@qaseh/entities';
 import { OrderResponseDto } from '@qaseh/dtos';
 import { CustomerFormatter } from '../../../customer/providers/formatters/customer.formatter';
 import { ProductFormatter } from '../../../product';
+import { DiscountFormatter } from '../../../discount';
 
 @Injectable()
 export class OrderFormatter extends BaseFormatter<
@@ -20,6 +21,9 @@ export class OrderFormatter extends BaseFormatter<
           : null,
         products: order.products
           ? new ProductFormatter().formatAll(order.products)
+          : null,
+        discount: order.discount
+          ? new DiscountFormatter().formatOne(order.discount)
           : null,
         paymentMethod: order.paymentMethod,
         purchasedAt: order.purchasedAt,
