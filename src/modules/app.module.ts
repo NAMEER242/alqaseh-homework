@@ -9,6 +9,7 @@ import { CustomerEntity, OrderEntity } from '@qaseh/entities';
 import { CustomerModule } from './auxiliary/customer';
 import { ProductModule } from './auxiliary/product';
 import { OrderModule } from './auxiliary/order';
+import { DiscountModule } from './auxiliary/discount';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { OrderModule } from './auxiliary/order';
     CustomerModule,
     ProductModule,
     OrderModule,
+    DiscountModule,
   ],
   controllers: [],
   providers: [],

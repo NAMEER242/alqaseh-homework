@@ -4,3 +4,4 @@ export * from './admin.dto';
 export * from './cusotmer.dto';
 export * from './product.dto';
 export * from './order.dto';
+export * from './discount.dto';

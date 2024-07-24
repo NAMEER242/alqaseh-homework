@@ -11,9 +11,6 @@ export class OrderDto {
   orderPrice: number;
 
   @ApiProperty()
-  discount: number;
-
-  @ApiProperty()
   paymentMethod: PaymentMethod;
 
   @ApiProperty()
@@ -49,7 +46,6 @@ export class UpdateAdminOrderDto extends PartialType(
 
 export class CreateOrderDto extends PickType(OrderDto, [
   'paymentMethod',
-  'discount',
   'orderPrice',
 ]) {
   @ApiProperty({ type: Number, isArray: true })
@@ -57,7 +53,7 @@ export class CreateOrderDto extends PickType(OrderDto, [
 }
 
 export class UpdateOrderDto extends PartialType(
-  PickType(OrderDto, ['orderPrice', 'discount', 'paymentMethod']),
+  PickType(OrderDto, ['orderPrice', 'paymentMethod']),
 ) {
   @ApiProperty({ type: Number, isArray: true })
   productIds: number[];

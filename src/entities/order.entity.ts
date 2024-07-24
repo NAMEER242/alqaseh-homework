@@ -8,10 +8,12 @@ import {
   ManyToOne,
   JoinColumn,
   JoinTable,
+  OneToOne,
 } from 'typeorm';
 import { ProductEntity } from './product.entity';
 import { PaymentMethod } from '@qaseh/enums';
 import { CustomerEntity } from './customer.entity';
+import { DiscountEntity } from './discount.entity';
 
 @Entity('orders')
 export class OrderEntity {
@@ -20,9 +22,6 @@ export class OrderEntity {
 
   @Column({ name: 'order_price', type: 'int', unsigned: true })
   orderPrice: number;
-
-  @Column({ type: 'int', unsigned: true, default: 0 })
-  discount: number;
 
   @Column({
     name: 'payment_method',
@@ -39,6 +38,9 @@ export class OrderEntity {
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
   updatedAt: Date;
+
+  @OneToOne(() => DiscountEntity, (discount) => discount.order)
+  discount: DiscountEntity;
 
   @ManyToMany(() => ProductEntity)
   @JoinTable({ name: 'orders_products' })

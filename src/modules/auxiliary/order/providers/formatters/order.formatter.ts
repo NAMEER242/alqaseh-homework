@@ -15,7 +15,6 @@ export class OrderFormatter extends BaseFormatter<
       return {
         id: order.id,
         orderPrice: order.orderPrice,
-        discount: order.discount,
         customer: order.customer
           ? new CustomerFormatter().formatOne(order.customer)
           : null,

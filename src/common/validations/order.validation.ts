@@ -3,7 +3,6 @@ import { PaymentMethod } from '@qaseh/enums';
 
 export const orderUpdateValidation = Joi.object({
   orderPrice: Joi.number().positive(),
-  discount: Joi.number().positive(),
   paymentMethod: Joi.string().valid(...Object.values(PaymentMethod)),
   productIds: Joi.array().items(Joi.number().positive()),
 });
