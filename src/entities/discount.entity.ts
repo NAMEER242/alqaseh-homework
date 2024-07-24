@@ -4,7 +4,6 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Column,
-  JoinColumn,
   OneToOne,
 } from 'typeorm';
 import { OrderEntity } from './order.entity';
@@ -36,6 +35,5 @@ export class DiscountEntity {
   updatedAt: Date;
 
   @OneToOne(() => OrderEntity, (order) => order.discount)
-  @JoinColumn({ name: 'orderId_id' })
   order: OrderEntity;
 }

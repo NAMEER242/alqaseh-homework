@@ -40,6 +40,7 @@ export class OrderEntity {
   updatedAt: Date;
 
   @OneToOne(() => DiscountEntity, (discount) => discount.order)
+  @JoinColumn({ name: 'discount_id' })
   discount: DiscountEntity;
 
   @ManyToMany(() => ProductEntity)

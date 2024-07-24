@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CustomerEntity, OrderEntity, ProductEntity } from '@qaseh/entities';
+import {
+  CustomerEntity,
+  DiscountEntity,
+  OrderEntity,
+  ProductEntity,
+} from '@qaseh/entities';
 import { Repository } from 'typeorm';
 import { CreateOrderDto, OrderFilterDto, UpdateOrderDto } from '@qaseh/dtos';
 
@@ -110,5 +115,21 @@ export class OrderService {
   async delete(id: number) {
     const res = await this.orderRepository.delete(id);
     return !!res.affected;
+  }
+
+  async setDiscount(id: number, discount: DiscountEntity) {
+    const order = await this.orderRepository.findOne({
+      where: {
+        id: id,
+      },
+      relations: {
+        customer: { user: true },
+        products: true,
+        discount: true,
+      },
+    });
+    if (!order) return null;
+    order.discount = discount;
+    return await this.orderRepository.save(order);
   }
 }

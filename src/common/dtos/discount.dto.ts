@@ -1,5 +1,4 @@
 import { ApiProperty, PartialType, PickType } from '@nestjs/swagger';
-import { OrderResponseDto } from './order.dto';
 
 export class DiscountDto {
   @ApiProperty()
@@ -37,10 +36,7 @@ export class UpdateDiscountDto extends PartialType(
   PickType(DiscountDto, ['expiredAt', 'totalPriceLimit', 'value']),
 ) {}
 
-export class ResponseDiscountDto extends PartialType(DiscountDto) {
-  @ApiProperty()
-  order?: OrderResponseDto;
-}
+export class ResponseDiscountDto extends PartialType(DiscountDto) {}
 
 export class DiscountFilterDto {
   @ApiProperty({

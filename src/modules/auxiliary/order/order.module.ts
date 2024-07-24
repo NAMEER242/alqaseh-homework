@@ -8,6 +8,7 @@ import { OrderFormatter } from './providers/formatters/order.formatter';
 import { OrderController } from './controllers/order.controller';
 import { AuthModule } from '../auth';
 import { ProductModule } from '../product';
+import { DiscountModule } from '../discount';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ProductModule } from '../product';
     AdminModule,
     CustomerModule,
     ProductModule,
+    DiscountModule,
   ],
   controllers: [OrderController],
   providers: [OrderService, OrderFormatter],

@@ -40,7 +40,7 @@ export class DiscountService {
   }
 
   async getByCode(code: string) {
-    return await this.discountRepository.find({
+    return await this.discountRepository.findOne({
       where: {
         code: code,
       },

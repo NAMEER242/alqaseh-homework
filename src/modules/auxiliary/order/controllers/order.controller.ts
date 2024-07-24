@@ -32,7 +32,7 @@ import {
   customerOrderUpdateValidation,
   orderFilterValidation,
   orderUpdateValidation,
-} from '../../../../common/validations/order.validation';
+} from '@qaseh/validations';
 import { AdminJwtAccessGuard } from '../../admin/providers/guards/admin-jwt-access-guard.service';
 import { OrderFormatter } from '../providers/formatters/order.formatter';
 import { SuccessResponseFormatter } from '@qaseh/modules/formatter';
@@ -41,6 +41,7 @@ import { CustomerService } from '../../customer/providers/services/customer.serv
 import { ProductService } from '../../product';
 import { CustomerJwtAccessGuard } from '../../customer/providers/guards/customer-jwt-access-guard.service';
 import { UserJwtAccessGuard } from '../../auth/providers/guards/user-jwt-access-guard.service';
+import { DiscountService } from '../../discount';
 
 @ApiTags('Order Management')
 @Controller()
@@ -48,6 +49,7 @@ export class OrderController {
   constructor(
     private readonly orderService: OrderService,
     private readonly productService: ProductService,
+    private readonly discountService: DiscountService,
     private readonly customerService: CustomerService,
     private readonly orderFormatter: OrderFormatter,
     private readonly responseFormatter: SuccessResponseFormatter,
@@ -261,6 +263,36 @@ export class OrderController {
 
     if (!order) {
       throw new BadRequestException('Order Update failed');
+    }
+
+    return this.responseFormatter.format({
+      req: req,
+      data: this.orderFormatter.formatOne(order),
+      status: HttpStatus.OK,
+    });
+  }
+
+  @Patch('orders/:id/discount/:code')
+  @UseGuards(CustomerJwtAccessGuard)
+  @ApiBearerAuth('Access')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: OrderResponseDto,
+  })
+  async setDiscount(
+    @Req() req: any,
+    @Param('id') id: number,
+    @Param('code') discountCode: string,
+  ) {
+    const discount = await this.discountService.getByCode(discountCode);
+    if (!discount) {
+      throw new NotFoundException('Discount Code Not Fount');
+    }
+
+    const order = await this.orderService.setDiscount(id, discount);
+
+    if (!order) {
+      throw new BadRequestException('Order Update Failed');
     }
 
     return this.responseFormatter.format({
