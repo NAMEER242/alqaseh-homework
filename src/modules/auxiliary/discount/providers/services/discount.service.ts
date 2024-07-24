@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DiscountEntity } from '@qaseh/entities';
+import { DiscountEntity, OrderEntity } from '@qaseh/entities';
 import { Repository } from 'typeorm';
 import {
   CreateDiscountDto,
@@ -45,6 +45,15 @@ export class DiscountService {
         code: code,
       },
     });
+  }
+
+  async validateDiscountByCode(code: string, order: OrderEntity) {
+    const discount = await this.getByCode(code);
+    if (!discount) return null;
+    if (discount.totalPriceLimit < order.orderPrice) return null;
+    if (discount.isUsed) return null;
+    if (discount.expiredAt < new Date()) return null;
+    return discount;
   }
 
   generateRandomString() {

@@ -117,18 +117,7 @@ export class OrderService {
     return !!res.affected;
   }
 
-  async setDiscount(id: number, discount: DiscountEntity) {
-    const order = await this.orderRepository.findOne({
-      where: {
-        id: id,
-      },
-      relations: {
-        customer: { user: true },
-        products: true,
-        discount: true,
-      },
-    });
-    if (!order) return null;
+  async setDiscount(order: OrderEntity, discount: DiscountEntity) {
     order.discount = discount;
     return await this.orderRepository.save(order);
   }

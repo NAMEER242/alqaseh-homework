@@ -284,12 +284,20 @@ export class OrderController {
     @Param('id') id: number,
     @Param('code') discountCode: string,
   ) {
-    const discount = await this.discountService.getByCode(discountCode);
-    if (!discount) {
-      throw new NotFoundException('Discount Code Not Fount');
+    let order = await this.orderService.get(id);
+    if (!order) {
+      throw new NotFoundException('Order Not Fount');
     }
 
-    const order = await this.orderService.setDiscount(id, discount);
+    const discount = await this.discountService.validateDiscountByCode(
+      discountCode,
+      order,
+    );
+    if (!discount) {
+      throw new BadRequestException('Discount Code Not Valid');
+    }
+
+    order = await this.orderService.setDiscount(order, discount);
 
     if (!order) {
       throw new BadRequestException('Order Update Failed');
