@@ -8,11 +8,11 @@ import {
 
 @Injectable()
 export class CreditCardService {
-  processPayment(createPaymentDto: CreatePaymentDto) {
+  processPayment(createPaymentDto: CreatePaymentDto, amount: number) {
     return {
       cardNumber: createPaymentDto.cardNumber,
       currency: createPaymentDto.currency,
-      amount: createPaymentDto.amount,
+      amount: amount,
       transactionId: 1,
       status: 'Pending',
     } as ResponseCreditCardTransactionDto;

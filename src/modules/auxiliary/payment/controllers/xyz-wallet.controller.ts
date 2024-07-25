@@ -19,6 +19,8 @@ import { CustomerJwtAccessGuard } from '../../customer/providers/guards/customer
 import { OrderService } from '../../order';
 import { CustomerEntity, UserEntity } from '@qaseh/entities';
 import { CustomerService } from '../../customer/providers/services/customer.service';
+import { PaymentMethod } from '@qaseh/enums';
+import { getFinalOrderPrice } from '@qaseh/utils';
 
 @ApiTags('Payment - XYZWallet')
 @Controller('xyz-wallet')
@@ -43,7 +45,13 @@ export class XyzWalletController {
     if (!order || order.customer.id == customer.id) {
       throw new NotFoundException('Order Not Found');
     }
-    return this.xyzWalletService.createTransaction(createTransactionDto);
+    if (order.paymentMethod != PaymentMethod.XyzWallet) {
+      throw new BadRequestException('Payment Method Not Match');
+    }
+    return this.xyzWalletService.createTransaction(
+      createTransactionDto,
+      getFinalOrderPrice(order),
+    );
   }
 
   @Patch('verify_transaction')

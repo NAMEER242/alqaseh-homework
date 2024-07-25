@@ -19,6 +19,8 @@ import { CustomerJwtAccessGuard } from '../../customer/providers/guards/customer
 import { CustomerEntity, UserEntity } from '@qaseh/entities';
 import { CustomerService } from '../../customer/providers/services/customer.service';
 import { OrderService } from '../../order';
+import { PaymentMethod } from '@qaseh/enums';
+import { getFinalOrderPrice } from '@qaseh/utils';
 
 @ApiTags('Payment - CreditCard')
 @Controller('credit-card')
@@ -43,7 +45,13 @@ export class CreditCardController {
     if (!order || order.customer.id == customer.id) {
       throw new NotFoundException('Order Not Found');
     }
-    return this.creditCardService.processPayment(createPaymentDto);
+    if (order.paymentMethod != PaymentMethod.CreditCard) {
+      throw new BadRequestException('Payment Method Not Match');
+    }
+    return this.creditCardService.processPayment(
+      createPaymentDto,
+      getFinalOrderPrice(order),
+    );
   }
 
   @Patch('verify_transaction')

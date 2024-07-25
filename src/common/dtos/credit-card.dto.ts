@@ -17,9 +17,6 @@ export class CreatePaymentDto {
   cvv: string;
 
   @ApiProperty()
-  amount: number;
-
-  @ApiProperty()
   currency: string;
 }
 

@@ -11,9 +11,6 @@ export class CreateTransactionDto {
   password: string;
 
   @ApiProperty()
-  amount: number;
-
-  @ApiProperty()
   currency: string;
 }
 
