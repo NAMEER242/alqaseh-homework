@@ -1,8 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateCreditCardDto {
+export class CreatePaymentDto {
   @ApiProperty()
-  number: string;
+  orderId: number;
+
+  @ApiProperty()
+  cardNumber: string;
 
   @ApiProperty()
   cardholder: string;
@@ -12,9 +15,18 @@ export class CreateCreditCardDto {
 
   @ApiProperty()
   cvv: string;
+
+  @ApiProperty()
+  amount: number;
+
+  @ApiProperty()
+  currency: string;
 }
 
-export class CreatePaymentDto {
+export class ResponseCreditCardTransactionDto {
+  @ApiProperty()
+  transactionId: number;
+
   @ApiProperty()
   cardNumber: string;
 
@@ -25,13 +37,21 @@ export class CreatePaymentDto {
   currency: string;
 
   @ApiProperty()
-  redirectUrl: string; // Add this field
+  status: string;
 }
 
-export class RefundPaymentDto {
+export class RefundCreditCardPaymentDto {
   @ApiProperty()
-  transactionId: string;
+  transactionId: number;
 
   @ApiProperty()
-  amount: number;
+  orderId: number;
+}
+
+export class VerifyCreditCardTransactionDto {
+  @ApiProperty()
+  orderId: number;
+
+  @ApiProperty()
+  transactionId: number;
 }
