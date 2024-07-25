@@ -35,8 +35,8 @@ import { HelperService } from '../../auth';
 import { CustomerJwtRefreshGuard } from '../providers/guards/customer-jwt-refresh-guard.service';
 import { JoiValidatorPipe } from '@qaseh/pipes';
 import {
-  changeCustomerInfoValidation, createCustomerValidation,
-  createUserValidation,
+  changeCustomerInfoValidation,
+  createCustomerValidation,
 } from '@qaseh/validations';
 import { CustomerService } from '../providers/services/customer.service';
 import { CustomerJwtAccessGuard } from '../providers/guards/customer-jwt-access-guard.service';

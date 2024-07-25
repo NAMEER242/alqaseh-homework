@@ -6,3 +6,4 @@ export * from './product.dto';
 export * from './order.dto';
 export * from './discount.dto';
 export * from './credit-card.dto';
+export * from './xyz-wallet.dto';

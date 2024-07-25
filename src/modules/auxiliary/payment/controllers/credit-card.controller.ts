@@ -7,7 +7,7 @@ import {
 } from '@qaseh/dtos';
 import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('Payment')
+@ApiTags('Payment - CreditCard')
 @Controller('credit-card')
 export class CreditCardController {
   constructor(private readonly creditCardService: CreditCardService) {}

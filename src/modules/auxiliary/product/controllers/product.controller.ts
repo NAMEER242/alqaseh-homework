@@ -33,7 +33,6 @@ import { ProductFormatter } from '../providers/formatters/product.formatter';
 import { SuccessResponseFormatter } from '@qaseh/modules/formatter';
 import { UserEntity } from '@qaseh/entities';
 import { AdminService } from '../../admin/providers/services/admin.service';
-import { CustomerJwtAccessGuard } from '../../customer/providers/guards/customer-jwt-access-guard.service';
 
 @ApiTags('Product Management')
 @Controller('products')

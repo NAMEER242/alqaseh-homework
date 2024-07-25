@@ -112,6 +112,12 @@ export class OrderService {
     return await this.orderRepository.save(order);
   }
 
+  async markOrderAsPaid(order: OrderEntity) {
+    if (!order) return null;
+    order.purchasedAt = new Date();
+    return await this.orderRepository.save(order);
+  }
+
   async delete(id: number) {
     const res = await this.orderRepository.delete(id);
     return !!res.affected;
