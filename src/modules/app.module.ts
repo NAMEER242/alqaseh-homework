@@ -10,6 +10,7 @@ import { CustomerModule } from './auxiliary/customer';
 import { ProductModule } from './auxiliary/product';
 import { OrderModule } from './auxiliary/order';
 import { DiscountModule } from './auxiliary/discount';
+import { PaymentModule } from './auxiliary/payment';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { DiscountModule } from './auxiliary/discount';
     ProductModule,
     OrderModule,
     DiscountModule,
+    PaymentModule,
   ],
   controllers: [],
   providers: [],
