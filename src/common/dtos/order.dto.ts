@@ -69,6 +69,9 @@ export class OrderResponseDto extends PartialType(OrderDto) {
 
   @ApiProperty({ type: ResponseDiscountDto })
   discount: ResponseDiscountDto;
+
+  @ApiProperty()
+  finalPrice: number;
 }
 
 export class OrderFilterDto {

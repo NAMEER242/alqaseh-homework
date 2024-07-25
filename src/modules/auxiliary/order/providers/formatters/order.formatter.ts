@@ -5,6 +5,7 @@ import { OrderResponseDto } from '@qaseh/dtos';
 import { CustomerFormatter } from '../../../customer/providers/formatters/customer.formatter';
 import { ProductFormatter } from '../../../product';
 import { DiscountFormatter } from '../../../discount';
+import { getFinalOrderPrice } from '@qaseh/utils';
 
 @Injectable()
 export class OrderFormatter extends BaseFormatter<
@@ -16,6 +17,7 @@ export class OrderFormatter extends BaseFormatter<
       return {
         id: order.id,
         orderPrice: order.orderPrice,
+        finalPrice: getFinalOrderPrice(order),
         customer: order.customer
           ? new CustomerFormatter().formatOne(order.customer)
           : null,

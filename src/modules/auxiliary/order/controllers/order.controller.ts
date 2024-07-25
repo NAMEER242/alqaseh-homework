@@ -1,4 +1,9 @@
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import {
   BadRequestException,
   Body,
@@ -163,6 +168,9 @@ export class OrderController {
     status: HttpStatus.CREATED,
     type: OrderResponseDto,
   })
+  @ApiOperation({
+    description: 'Available payment methods are: [credit, xyzWallet]',
+  })
   async createCustomerOrder(
     @Req() req: any,
     @Body() orderDto: CreateCustomerOrderDto,
@@ -198,6 +206,9 @@ export class OrderController {
     status: HttpStatus.OK,
     type: OrderResponseDto,
   })
+  @ApiOperation({
+    description: 'Available payment methods are: [credit, xyzWallet]',
+  })
   async updateCustomerOrder(
     @Req() req: any,
     @Param('id') id: number,
@@ -216,7 +227,7 @@ export class OrderController {
     const order = await this.orderService.update(
       id,
       customer,
-      products,
+      orderDto.productIds != undefined ? products : undefined,
       updateDto,
     );
 
@@ -239,6 +250,9 @@ export class OrderController {
     status: HttpStatus.OK,
     type: OrderResponseDto,
   })
+  @ApiOperation({
+    description: 'Available payment methods are: [credit, xyzWallet]',
+  })
   async update(
     @Req() req: any,
     @Param('id') id: number,
@@ -257,7 +271,7 @@ export class OrderController {
     const order = await this.orderService.update(
       id,
       customer,
-      products,
+      orderDto.productIds != undefined ? products : undefined,
       updateDto,
     );
 

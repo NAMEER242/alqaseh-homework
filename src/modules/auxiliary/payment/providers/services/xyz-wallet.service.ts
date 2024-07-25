@@ -8,11 +8,14 @@ import {
 
 @Injectable()
 export class XyzWalletService {
-  createTransaction(createTransactionDto: CreateTransactionDto) {
+  createTransaction(
+    createTransactionDto: CreateTransactionDto,
+    amount: number,
+  ) {
     return {
       transactionId: 1,
       status: 'Pending',
-      amount: createTransactionDto.amount,
+      amount: amount,
       phoneNumber: createTransactionDto.phoneNumber,
       currency: createTransactionDto.currency,
     } as ResponseTransactionDto;

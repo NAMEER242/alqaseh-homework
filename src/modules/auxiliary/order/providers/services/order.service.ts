@@ -55,7 +55,7 @@ export class OrderService {
     query
       .leftJoinAndSelect('order.customer', 'customer')
       .leftJoinAndSelect('customer.user', 'user')
-      .leftJoinAndSelect('customer.discount', 'discount')
+      .leftJoinAndSelect('order.discount', 'discount')
       .leftJoinAndSelect('order.products', 'products');
     query.andWhere('customer.id = :id', { id: customerId });
     query.skip((filter.page - 1) * filter.limit).take(filter.limit);
@@ -108,7 +108,9 @@ export class OrderService {
     if (!order) return null;
     if (customer && order.customer.id != customer.id) return null;
     order = this.orderRepository.merge(order, orderDto);
-    order.products = products;
+    if (products != undefined) {
+      order.products = products;
+    }
     return await this.orderRepository.save(order);
   }
 
