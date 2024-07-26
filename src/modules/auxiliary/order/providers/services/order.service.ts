@@ -28,7 +28,7 @@ export class OrderService {
     query
       .leftJoinAndSelect('order.customer', 'customer')
       .leftJoinAndSelect('customer.user', 'user')
-      .leftJoinAndSelect('customer.discount', 'discount')
+      .leftJoinAndSelect('order.discount', 'discount')
       .leftJoinAndSelect('order.products', 'products');
 
     if (filter.customerId) {
