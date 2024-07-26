@@ -71,7 +71,10 @@ export class OrderService {
       },
       relations: {
         customer: { user: true },
-        products: true,
+        products: {
+          updatedBy: true,
+          createdBy: true,
+        },
         discount: true,
       },
     });
@@ -151,5 +154,14 @@ export class OrderService {
   async setDiscount(order: OrderEntity, discount: DiscountEntity) {
     order.discount = discount;
     return await this.orderRepository.save(order);
+  }
+
+  async validateOrderProducts(products: ProductEntity[]) {
+    for (const product of products) {
+      if (product.quantity <= 0) {
+        return false;
+      }
+    }
+    return true;
   }
 }

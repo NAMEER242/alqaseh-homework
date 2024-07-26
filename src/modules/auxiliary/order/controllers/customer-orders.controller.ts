@@ -131,6 +131,12 @@ export class OrderController {
     const products = await this.productService.getByIds(
       orderDto.productIds ?? [],
     );
+    const isEachProductsValid =
+      await this.orderService.validateOrderProducts(products);
+    if (!isEachProductsValid) {
+      throw new BadRequestException('One or more products are out of stock');
+    }
+
     const createDto = {
       orderPrice: products.reduce((total, product) => total + product.price, 0),
       ...orderDto,

@@ -5,9 +5,10 @@ import { XyzWalletController } from './controllers/xyz-wallet.controller';
 import { XyzWalletService } from './providers/services/xyz-wallet.service';
 import { OrderModule } from '../order';
 import { CustomerModule } from '../customer';
+import { ProductModule } from '../product';
 
 @Module({
-  imports: [OrderModule, CustomerModule],
+  imports: [OrderModule, CustomerModule, ProductModule],
   controllers: [CreditCardController, XyzWalletController],
   providers: [CreditCardService, XyzWalletService],
 })

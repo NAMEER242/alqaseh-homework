@@ -21,6 +21,7 @@ import { CustomerService } from '../../customer/providers/services/customer.serv
 import { OrderService } from '../../order';
 import { PaymentMethod } from '@qaseh/enums';
 import { getFinalOrderPrice } from '@qaseh/utils';
+import { ProductService } from '../../product';
 
 @ApiTags('Payment - CreditCard')
 @Controller('credit-card')
@@ -29,6 +30,7 @@ export class CreditCardController {
     private readonly creditCardService: CreditCardService,
     private readonly customerService: CustomerService,
     private readonly orderService: OrderService,
+    private readonly productService: ProductService,
   ) {}
 
   @Post('transaction')
@@ -42,12 +44,14 @@ export class CreditCardController {
     const customer: CustomerEntity =
       await this.customerService.getCustomerByUserId(user.id);
     const order = await this.orderService.get(createPaymentDto.orderId);
+
     if (!order || order.customer.id == customer.id) {
       throw new NotFoundException('Order Not Found');
     }
     if (order.paymentMethod != PaymentMethod.CreditCard) {
       throw new BadRequestException('Payment Method Not Match');
     }
+
     return this.creditCardService.processPayment(
       createPaymentDto,
       getFinalOrderPrice(order),
@@ -63,11 +67,16 @@ export class CreditCardController {
     if (transaction.status != 'Done') {
       throw new BadRequestException('Verification Field');
     }
+
     let order = await this.orderService.get(verifyPaymentDto.orderId);
     if (!order) {
       throw new NotFoundException('Order Not Found');
     }
+
     order = await this.orderService.markOrderAsPaid(order);
+    order.products.forEach((p) =>
+      this.productService.update(p.id, p.updatedBy, { quantity: --p.quantity }),
+    );
     return transaction;
   }
 

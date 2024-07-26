@@ -21,6 +21,7 @@ import { CustomerEntity, UserEntity } from '@qaseh/entities';
 import { CustomerService } from '../../customer/providers/services/customer.service';
 import { PaymentMethod } from '@qaseh/enums';
 import { getFinalOrderPrice } from '@qaseh/utils';
+import { ProductService } from '../../product';
 
 @ApiTags('Payment - XYZWallet')
 @Controller('xyz-wallet')
@@ -29,6 +30,7 @@ export class XyzWalletController {
     private readonly xyzWalletService: XyzWalletService,
     private readonly customerService: CustomerService,
     private readonly orderService: OrderService,
+    private readonly productService: ProductService,
   ) {}
 
   @Post('transaction')
@@ -42,12 +44,14 @@ export class XyzWalletController {
     const customer: CustomerEntity =
       await this.customerService.getCustomerByUserId(user.id);
     const order = await this.orderService.get(createTransactionDto.orderId);
+
     if (!order || order.customer.id == customer.id) {
       throw new NotFoundException('Order Not Found');
     }
     if (order.paymentMethod != PaymentMethod.XyzWallet) {
       throw new BadRequestException('Payment Method Not Match');
     }
+
     return this.xyzWalletService.createTransaction(
       createTransactionDto,
       getFinalOrderPrice(order),
@@ -61,11 +65,16 @@ export class XyzWalletController {
     if (transaction.status != 'Done') {
       throw new BadRequestException('Verification Field');
     }
+
     let order = await this.orderService.get(verifyTransactionDto.orderId);
     if (!order) {
       throw new NotFoundException('Order Not Found');
     }
+
     order = await this.orderService.markOrderAsPaid(order);
+    order.products.forEach((p) =>
+      this.productService.update(p.id, p.updatedBy, { quantity: --p.quantity }),
+    );
     return transaction;
   }
 
