@@ -13,12 +13,12 @@ import {
 import { CustomerProductResponseDto, ProductFilterDto } from '@qaseh/dtos';
 import { ProductService } from '../providers/services/product.service';
 import { JoiValidatorPipe } from '@qaseh/pipes';
-import { productFilterValidation } from '../../../../common/validations/product.validation';
+import { productFilterValidation } from '@qaseh/validations';
 import { SuccessResponseFormatter } from '@qaseh/modules/formatter';
 import { CustomerJwtAccessGuard } from '../../customer/providers/guards/customer-jwt-access-guard.service';
 import { CustomerProductsFormatter } from '../providers/formatters/customer-products.formatter';
 
-@ApiTags('Product Management')
+@ApiTags('Products')
 @Controller('customer/products')
 export class CustomerProductsController {
   constructor(

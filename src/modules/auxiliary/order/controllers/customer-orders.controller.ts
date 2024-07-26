@@ -44,7 +44,7 @@ import { ProductService } from '../../product';
 import { CustomerJwtAccessGuard } from '../../customer/providers/guards/customer-jwt-access-guard.service';
 import { DiscountService } from '../../discount';
 
-@ApiTags('Order Management')
+@ApiTags('Orders')
 @Controller()
 export class CustomerOrdersController {
   constructor(
@@ -199,7 +199,7 @@ export class CustomerOrdersController {
     });
   }
 
-  @Patch('orders/:id/discount/:code')
+  @Patch('customer/orders/:id/discount/:code')
   @UseGuards(CustomerJwtAccessGuard)
   @ApiBearerAuth('Access')
   @ApiResponse({
@@ -238,7 +238,7 @@ export class CustomerOrdersController {
     });
   }
 
-  @Delete('orders/:id')
+  @Delete('customer/orders/:id')
   @UseGuards(CustomerJwtAccessGuard)
   @ApiBearerAuth('Access')
   @ApiResponse({ status: HttpStatus.NO_CONTENT })
