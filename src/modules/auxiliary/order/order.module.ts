@@ -9,6 +9,7 @@ import { OrderController } from './controllers/order.controller';
 import { AuthModule } from '../auth';
 import { ProductModule } from '../product';
 import { DiscountModule } from '../discount';
+import { CustomerOrdersController } from './controllers/customer-orders.controller';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { DiscountModule } from '../discount';
     ProductModule,
     DiscountModule,
   ],
-  controllers: [OrderController],
+  controllers: [OrderController, CustomerOrdersController],
   providers: [OrderService, OrderFormatter],
   exports: [OrderService, OrderFormatter],
 })

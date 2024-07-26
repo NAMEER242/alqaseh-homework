@@ -46,7 +46,7 @@ import { DiscountService } from '../../discount';
 
 @ApiTags('Order Management')
 @Controller()
-export class OrderController {
+export class CustomerOrdersController {
   constructor(
     private readonly orderService: OrderService,
     private readonly productService: ProductService,
@@ -216,7 +216,7 @@ export class OrderController {
       throw new NotFoundException('Order Not Fount');
     }
 
-    const discount = await this.discountService.validateDiscountByCode(
+    let discount = await this.discountService.validateDiscountByCode(
       discountCode,
       order,
     );
@@ -224,6 +224,7 @@ export class OrderController {
       throw new BadRequestException('Discount Code Not Valid');
     }
 
+    discount = await this.discountService.update(discount.id, { isUsed: true });
     order = await this.orderService.setDiscount(order, discount);
 
     if (!order) {

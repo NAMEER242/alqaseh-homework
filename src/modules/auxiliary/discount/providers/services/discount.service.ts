@@ -50,7 +50,7 @@ export class DiscountService {
   async validateDiscountByCode(code: string, order: OrderEntity) {
     const discount = await this.getByCode(code);
     if (!discount) return null;
-    if (discount.totalPriceLimit < order.orderPrice) return null;
+    if (discount.totalPriceLimit > order.orderPrice) return null;
     if (discount.isUsed) return null;
     if (discount.expiredAt < new Date()) return null;
     return discount;
