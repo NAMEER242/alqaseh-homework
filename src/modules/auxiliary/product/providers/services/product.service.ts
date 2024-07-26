@@ -94,7 +94,7 @@ export class ProductService {
         updatedBy: { user: true },
       },
     });
-    if (!product || !updatedBy) return null;
+    if (!product) return null;
     product.updatedBy = updatedBy;
     product = this.productRepository.merge(product, productDto);
     return await this.productRepository.save(product);

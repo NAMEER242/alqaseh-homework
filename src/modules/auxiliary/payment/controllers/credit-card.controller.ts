@@ -23,7 +23,7 @@ import { PaymentMethod } from '@qaseh/enums';
 import { getFinalOrderPrice } from '@qaseh/utils';
 import { ProductService } from '../../product';
 
-@ApiTags('Payment - CreditCard')
+@ApiTags('Payment - CreditCard [FAKE]')
 @Controller('credit-card')
 export class CreditCardController {
   constructor(
@@ -45,7 +45,7 @@ export class CreditCardController {
       await this.customerService.getCustomerByUserId(user.id);
     const order = await this.orderService.get(createPaymentDto.orderId);
 
-    if (!order || order.customer.id == customer.id) {
+    if (!order || order.customer.id != customer.id || order.purchasedAt) {
       throw new NotFoundException('Order Not Found');
     }
     if (order.paymentMethod != PaymentMethod.CreditCard) {
@@ -91,7 +91,7 @@ export class CreditCardController {
     const customer: CustomerEntity =
       await this.customerService.getCustomerByUserId(user.id);
     const order = await this.orderService.get(refundPaymentDto.orderId);
-    if (!order || order.customer.id == customer.id) {
+    if (!order || order.customer.id != customer.id) {
       throw new NotFoundException('Order Not Found');
     }
     return this.creditCardService.refundPayment(refundPaymentDto);

@@ -23,7 +23,7 @@ import { PaymentMethod } from '@qaseh/enums';
 import { getFinalOrderPrice } from '@qaseh/utils';
 import { ProductService } from '../../product';
 
-@ApiTags('Payment - XYZWallet')
+@ApiTags('Payment - XYZWallet [FAKE]')
 @Controller('xyz-wallet')
 export class XyzWalletController {
   constructor(
@@ -45,7 +45,7 @@ export class XyzWalletController {
       await this.customerService.getCustomerByUserId(user.id);
     const order = await this.orderService.get(createTransactionDto.orderId);
 
-    if (!order || order.customer.id == customer.id) {
+    if (!order || order.customer.id != customer.id) {
       throw new NotFoundException('Order Not Found');
     }
     if (order.paymentMethod != PaymentMethod.XyzWallet) {
@@ -89,7 +89,7 @@ export class XyzWalletController {
     const customer: CustomerEntity =
       await this.customerService.getCustomerByUserId(user.id);
     const order = await this.orderService.get(refundTransactionDto.orderId);
-    if (!order || order.customer.id == customer.id) {
+    if (!order || order.customer.id != customer.id) {
       throw new NotFoundException('Order Not Found');
     }
     return this.xyzWalletService.refundTransaction(refundTransactionDto);
