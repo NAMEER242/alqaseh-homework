@@ -41,7 +41,7 @@ import {
 import { CustomerService } from '../providers/services/customer.service';
 import { CustomerJwtAccessGuard } from '../providers/guards/customer-jwt-access-guard.service';
 
-@ApiTags('Account Customer')
+@ApiTags('Customer Account')
 @Controller('account/customer/auth')
 export class CustomerAccountController {
   constructor(

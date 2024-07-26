@@ -41,7 +41,7 @@ import {
 import { AdminService } from '../providers/services/admin.service';
 import { AdminJwtAccessGuard } from '../providers/guards/admin-jwt-access-guard.service';
 
-@ApiTags('Account Admin')
+@ApiTags('Admin Account')
 @Controller('account/admin/auth')
 export class AdminAccountController {
   constructor(

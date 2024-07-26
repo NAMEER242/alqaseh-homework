@@ -114,6 +114,29 @@ export class OrderService {
     return await this.orderRepository.save(order);
   }
 
+  async adminUpdate(
+    id: number,
+    products: ProductEntity[],
+    orderDto: UpdateOrderDto,
+  ) {
+    let order = await this.orderRepository.findOne({
+      where: {
+        id: id,
+      },
+      relations: {
+        customer: { user: true },
+        products: true,
+        discount: true,
+      },
+    });
+    if (!order) return null;
+    order = this.orderRepository.merge(order, orderDto);
+    if (products != undefined) {
+      order.products = products;
+    }
+    return await this.orderRepository.save(order);
+  }
+
   async markOrderAsPaid(order: OrderEntity) {
     if (!order) return null;
     order.purchasedAt = new Date();

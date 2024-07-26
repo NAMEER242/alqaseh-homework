@@ -7,9 +7,9 @@ export const discountCreateValidation = Joi.object({
 });
 
 export const discountUpdateValidation = Joi.object({
-  expiredAt: Joi.date().greater('now').required(),
-  totalPriceLimit: Joi.number().positive().required(),
-  value: Joi.number().positive().required(),
+  expiredAt: Joi.date().greater('now'),
+  totalPriceLimit: Joi.number().positive(),
+  value: Joi.number().positive(),
 });
 
 export const discountFilterValidation = Joi.object({
